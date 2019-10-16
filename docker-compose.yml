@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=wordpress
+    volumes:
+    - ./database:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+    - 8080:80
+    environment:
+    - PMA_HOST=mariadb
+    depends_on:
+    - mariadb
+  php7.2:
+    image: php:7.2-apache
+    ports:
+    - 8180:80
+    depends_on:
+    - mariadb
+    - mailhog
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+    - 1025:1025
+    - 8025:8025
+    depends_on:
+    - mariadb

@@ -2,34 +2,34 @@ version: '3.7'
 services:
 
   mariadb:
-    image: mariadb:latest
+    image: mariadb
     environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=root
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-        - "8080:80"
+      - "8080:80"
     environment:
-        - PMA_HOST=mariadb
+      - PMA_HOST=mariadb
     depends_on:
-    - mariadb
+      - mariadb
 
-    mailhog:
+  mailhog:
     image: mailhog/mailhog
     ports:
-        - "1025:1025"
-        - "8025:8025"
+      - "1025:1025"
+      - "8025:8025"
     depends_on:
-    - mariadb
+      - mariadb
 
-  php7.2:
-    image: php:7.2-apache
+  php:
+    image: php
     ports:
-        - "8180:80"
+      - "8180:80"
     depends_on:
-    - mariadb
-    - mailhog
+      - mariadb
+      - mailhog
     volumes:
-    - /Users/kevin/Desktop/IPSSI/Docker/ProjetDocker:/var/www/html
+      - .:/var/www/html
